@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ETF Pie Builder</title>
+  <meta name="description" content="See what AVUV, AVDV and AVEM hold, pick the top stocks from each, and get the percentages for your brokerage pie.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🥧</text></svg>">
+  <link rel="stylesheet" href="style.css">
+  <script src="vendor/xlsx.mini.min.js" defer></script>
+  <script src="vendor/plotly-basic.min.js" defer></script>
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <header class="top">
+    <div class="wrap">
+      <h1>🥧 ETF Pie Builder</h1>
+      <p class="sub">See what <b>AVUV</b>, <b>AVDV</b> and <b>AVEM</b> hold, pick the top stocks from each,
+        and get the percentages to enter in your brokerage pie.</p>
+    </div>
+  </header>
+
+  <main class="wrap layout">
+    <aside class="card settings" aria-label="Pie settings">
+      <h2>Settings</h2>
+      <label class="field">
+        <span>Stocks per ETF <output id="nOut">5</output></span>
+        <input type="range" id="nPicks" min="1" max="15" value="5">
+      </label>
+      <label class="check">
+        <input type="checkbox" id="usOnly">
+        <span>Only US-listed tickers
+          <small>Skips foreign listings (e.g. 2330.TW) that many US brokerages can't buy.</small></span>
+      </label>
+      <fieldset class="field">
+        <legend>Weight stocks inside each ETF's slice</legend>
+        <label class="radio"><input type="radio" name="method" value="proportional" checked> Proportional to ETF weight</label>
+        <label class="radio"><input type="radio" name="method" value="equal"> Equal weight</label>
+      </fieldset>
+      <fieldset class="field">
+        <legend>Share of the pie per ETF (%)</legend>
+        <div id="allocInputs" class="alloc"></div>
+      </fieldset>
+      <label class="check">
+        <input type="checkbox" id="whole" checked>
+        <span>Round to whole percents <small>Many brokerage pies (e.g. M1) only accept whole numbers.</small></span>
+      </label>
+      <p class="fine">Your files and settings stay in this browser. Nothing is uploaded to a server.
+        This is a tool, not investment advice.</p>
+    </aside>
+
+    <div class="content">
+      <section class="card">
+        <h2>1 · Load each ETF's holdings</h2>
+        <p class="hint">On each fund's page at
+          <a href="https://www.avantisinvestors.com/avantis-investments/" target="_blank" rel="noopener">avantisinvestors.com</a>,
+          open <b>Holdings</b> and download the full list (CSV or Excel), then drop it on the matching box.
+          Any file with a ticker/name column and a weight column works.</p>
+        <div id="uploads" class="uploads"></div>
+        <p class="fine">Just looking? <button type="button" id="demoBtn" class="link">Load demo data</button>
+          (made-up holdings, not real).</p>
+      </section>
+
+      <section class="card">
+        <h2>2 · What each ETF holds</h2>
+        <div role="tablist" id="tabs" class="tabs"></div>
+        <div id="tabPanel"></div>
+      </section>
+
+      <section class="card">
+        <h2>3 · Your pie</h2>
+        <div id="pieEmpty" class="empty">Load holdings above to build your pie.</div>
+        <div id="pieBody" hidden>
+          <div class="tiles" id="pieTiles"></div>
+          <p id="dropped" class="fine" hidden></p>
+          <div class="pie-grid">
+            <div>
+              <div id="donut" class="chart" role="img" aria-label="Pie chart of your picks, grouped by ETF"></div>
+              <p class="fine">Inner ring = ETF, outer ring = stock. Hover or tap for details.</p>
+            </div>
+            <div>
+              <div class="table-wrap"><table id="pieTable"></table></div>
+              <div class="actions">
+                <button type="button" id="copyBtn" class="btn">📋 Copy list</button>
+                <button type="button" id="csvBtn" class="btn">⬇️ Download CSV</button>
+                <span id="copied" class="fine" hidden>Copied!</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+  <footer class="wrap fine">Holdings change over time; re-download the files now and then to stay current.</footer>
+</body>
+</html>
