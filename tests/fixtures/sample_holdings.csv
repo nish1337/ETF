@@ -1,0 +1,10 @@
+Sample ETF Holdings (test fixture - not real data)
+As of 01/02/2026
+
+Ticker,Security Name,Shares,Market Value,% of Net Assets
+AAA,Alpha Corp,1000,"$52,000",5.20%
+BBB,Beta Inc,900,"$41,000",4.10%
+CCC,Gamma Ltd,500,"$30,000",3.00%
+,Cash & Equivalents,,"$10,000",1.00%
+2330.TW,Taiwan Semi,300,"$25,000",2.50%
+DDD,Delta Co,200,"$9,000",0.90%
