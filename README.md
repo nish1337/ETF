@@ -62,3 +62,18 @@ pip install pytest && pytest
 ```
 
 > Past performance does not guarantee future results. This project is for education, not investment advice.
+
+## Static website version (`site/`)
+
+A browser-only version of the Pie Builder that needs no Python, so it can be hosted on any
+static web host (e.g. Hostinger shared hosting). Upload holdings files and it builds the pie;
+everything stays in the visitor's browser. Libraries are bundled in `site/vendor/`, so no CDN is needed.
+
+**Deploy to Hostinger:** in hPanel create the subdomain (e.g. `invest.madebynish.com`), open
+**File Manager** for it, and upload the *contents* of `site/` (`index.html`, `app.js`,
+`holdings.js`, `style.css`, `vendor/`) into its folder (usually `public_html/invest` or
+`domains/invest.madebynish.com/public_html`).
+
+**Preview locally:** `cd site && python3 -m http.server 8000` then open http://localhost:8000.
+
+JS tests: `node --test tests/js/holdings.test.mjs`
